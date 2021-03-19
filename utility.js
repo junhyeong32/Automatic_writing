@@ -1,3 +1,6 @@
+// ip 변경
+// naver 차단 감지
+
 const puppeteer = require("puppeteer");
 let loginCount1 = 0;
 let loginCount2 = 0;
@@ -7,6 +10,8 @@ let emailCount = () => {
 let passwordCount = () => {
   return (loginCount2 += 1);
 };
+
+let code = "005930";
 
 const idCopy = async () => {
   try {
@@ -168,7 +173,7 @@ const write = async () => {
     const page = await browser.newPage();
     await page.setViewport({ width: 1366, height: 768 });
     await page.goto(
-      " https://finance.naver.com/item/board_write_edit.nhn?code=252670&mode=write",
+      `https://finance.naver.com/item/board_write_edit.nhn?code=${code}&mode=write`,
       { waitUntil: "networkidle2" }
     );
 
@@ -195,7 +200,7 @@ const write = async () => {
     await page.click(".btn_global");
 
     await page.waitForResponse((response) => {
-      response.url().slice(0, 21);
+      /* return response.url().slice(0, 21) === "https://nid.naver.com"; */
       if (response.url().slice(0, 21) === "https://nid.naver.com") {
         page.close();
         return idCopy();
