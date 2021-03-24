@@ -23,6 +23,7 @@ const exportExcel = (data) => {
 
 const copyEmail = async (emailCount) => {
   let count = emailCount();
+  console.log(count);
   const id = sheet[`A${count}`].v;
   clipboardy.writeSync(id);
   clipboardy.readSync();
@@ -36,20 +37,30 @@ const copyPassword = async (passwordCount) => {
   clipboardy.readSync();
 };
 
-const copyTitle = async () => {
-  let count = 1;
+const copyTitle = async (titleCount) => {
+  let count = titleCount();
   const title = sheet[`C${count}`].v;
-
+  console.log("title copy start");
   clipboardy.writeSync(title);
   clipboardy.readSync();
 };
 
-const copyBody = async () => {
-  let count = 1;
+const copyBody = async (bodyCount) => {
+  let count = bodyCount();
   const body = sheet[`D${count}`].v;
 
   clipboardy.writeSync(body);
   clipboardy.readSync();
 };
 
-module.exports = { copyEmail, copyPassword, copyTitle, copyBody };
+const getCode = async (codeCount) => {
+  let count = codeCount();
+  if (sheet[`E${count}`] === undefined) {
+    return undefined;
+  }
+  const code = sheet[`E${count}`].v;
+
+  return code;
+};
+
+module.exports = { copyEmail, copyPassword, copyTitle, copyBody, getCode };
